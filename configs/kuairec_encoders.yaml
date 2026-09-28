@@ -1,0 +1,55 @@
+# =====================================================================
+#  The KuaiRec encoder comparison: the three architectures that fit.
+#
+#  WHY GAT AND NGCF ARE NOT HERE.
+#
+#  Both exceeded a 16 GiB card on this graph, and neither was shrunk to
+#  make it fit. Shrinking would have broken the one property the
+#  comparison rests on: default.yaml gives every architecture the same
+#  embedding_dim, hidden_dim, num_layers and node_batch_size precisely so
+#  that their validation losses are comparable. An architecture trained
+#  at half the width is a different experiment wearing the same name.
+#
+#  The cause is one design choice, shared by exactly those two: they
+#  MATERIALISE FEATURES PER EDGE. On this graph that is
+#
+#      3,088,460 train message edges (+17,188 self-loops for GAT)
+#
+#  and a single (edges x 128) float32 tensor is already 1.58 GiB.
+#
+#    * GAT (gnn.py:234) holds one message per edge PER HEAD:
+#      3,105,648 x 4 heads x 128 x 4 B = 6.36 GiB for `h[col]` alone,
+#      doubled for the attention-weighted product, over 3 layers, all
+#      retained for backward -- roughly 38 GiB. It raised
+#      torch.OutOfMemoryError at exactly that line.
+#
+#    * NGCF (gnn.py:286-287) holds six such tensors per layer --
+#      h[col], h[row], their product, W2(product), transformed[col] and
+#      messages -- about 9.5 GiB live per layer and roughly 28 GiB over
+#      three. It did not raise: on Windows it spilled into shared system
+#      memory and ran at 100% utilisation without completing a single
+#      epoch in 32 minutes, against LightGCN's ~30 seconds per epoch. It
+#      was stopped rather than left to thrash.
+#
+#  LightGCN, GraphSAGE and GCN each build ONE per-edge tensor and
+#  aggregate it immediately (gnn.py:117 for GCN), so their peak is a few
+#  GiB and they fit comfortably. That contrast is a practical result for
+#  anyone running these models on consumer hardware and is reported as
+#  one, not hidden as an omission.
+#
+#  GAT AND NGCF REMAIN IN THE STUDY ON OBD, whose graph is three orders
+#  of magnitude smaller. The architectures are not dropped -- only the
+#  dataset where they do not fit in 16 GiB.
+#
+#  Nothing else differs from kuairec.yaml. `gnn.architectures` is
+#  excluded from the Phase 1 artefact fingerprint by construction (see
+#  gcrl.cli.embedding_fingerprint), so LightGCN and GraphSAGE are reused
+#  from the main run rather than retrained, and GCN is the only encoder
+#  this config actually trains.
+# =====================================================================
+extends: kuairec.yaml
+
+experiment_name: kuairec_encoders
+
+gnn:
+  architectures: [LightGCN, GraphSAGE, GCN]

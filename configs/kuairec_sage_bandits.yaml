@@ -1,0 +1,60 @@
+# =====================================================================
+#  Is the collapse a property of the task, or of the encoder we chose?
+#
+#  THE PROBLEM THIS EXISTS TO TEST.
+#
+#  Every downstream result in this study uses LightGCN, because
+#  kuairec.yaml and obd.yaml both fix `rl.gnn_architecture: LightGCN`.
+#  The encoder comparison was run afterwards, and it ranks LightGCN
+#  LAST on both graphs:
+#
+#      KuaiRec   GCN 0.3151 < GraphSAGE 0.3152 < LightGCN 0.3559
+#      OBD       GAT 0.6530 < GraphSAGE 0.6559 < GCN 0.6576
+#                          < NGCF 0.6799 < LightGCN 0.7007
+#
+#  (validation BPR loss, lower is better). LightGCN has 4,160 free
+#  parameters against GraphSAGE's 66,176 -- it is embedding-only, with
+#  no transformation weights -- so fitting worse is expected, not a bug.
+#
+#  That matters because the study's central claim is that no policy
+#  personalises: NeuralUCB recommends ONE video to all 1,411 users, and
+#  a permutation test cannot distinguish any agent from a random
+#  reassignment of its own choices (p >= 0.23 throughout). If that
+#  collapse is caused by a weak encoder rather than by the task, the
+#  claim is about LightGCN and not about offline RL.
+#
+#  GraphSAGE is the encoder to test with: it is second-best on BOTH
+#  datasets, so it is not a KuaiRec-specific pick, and its embeddings
+#  already trained in 566 seconds.
+#
+#  WHY ONLY THE BANDITS. Random, LinUCB and NeuralUCB together take
+#  about 6.5 minutes on this data; the four offline-RL agents take about
+#  eight hours. NeuralUCB is the collapsed policy the claim rests on, so
+#  it is the one that has to be re-tested. If it spreads its choices
+#  under GraphSAGE, the paper's claim must be narrowed and the full
+#  suite re-run. If it collapses again, the claim is about the task.
+#
+#  WHY THE DATASET IS RENAMED. Policy and embedding filenames are built
+#  from `dataset.name` and do NOT record the architecture
+#  (gcrl/phases/phase3_rl.py:156), so running GraphSAGE under the name
+#  `kuairec` would silently OVERWRITE the LightGCN policies behind the
+#  main results. Renaming isolates every artefact path -- policies,
+#  embeddings, dataset cache and result files all land beside the
+#  originals instead of on top of them. Nothing in the code branches on
+#  this value; dispatch is by `dataset.loader`, which is unchanged, so
+#  the loader, the evaluation block and the exact ground truth are all
+#  identical. The cost is one dataset rebuild and one encoder retrain.
+# =====================================================================
+extends: kuairec.yaml
+
+experiment_name: kuairec_sage_bandits
+
+dataset:
+  name: kuairec_sage
+
+gnn:
+  architectures: [GraphSAGE]
+
+rl:
+  gnn_architecture: GraphSAGE
+  agents: [Random, LinUCB, NeuralUCB]

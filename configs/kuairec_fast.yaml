@@ -1,0 +1,43 @@
+extends: kuairec.yaml
+
+# Reduced-scale KuaiRec profile for a deadline run. See obd_fast.yaml.
+#
+# Note on the action space: under the two-matrix protocol there are 3,327
+# actions -- small_matrix's item universe -- and the log contains none of the
+# (evaluation user, evaluation action) pairs. A deterministic policy therefore
+# never matches an evaluation user's logged action in the sparse log, and would
+# match exactly one round per user in the block. This is why the headline number
+# is `exact` lookup on the fully observed small_matrix -- not a convenience, a
+# validity requirement.
+#
+# `subsample_rows` cuts the WHOLE training log, which trims the representation
+# and the policy together. `eval_subsample_rows` shortens Phase 4 by scoring
+# fewer ROUNDS; it does not shrink the ground-truth table, which is always built
+# from every recorded cell of small_matrix, so coverage stays ~99.6% either way.
+#
+# Subsampling the log costs representation quality for the evaluation users
+# specifically: their rows are ~4.6% of big_matrix, so a 300,000-row sample
+# leaves them roughly 14,000 interactions. Report the count
+# (`representation_rows` in the dataset summary), do not assume it is enough.
+
+experiment_name: kuairec_fast
+
+dataset:
+  subsample_rows: 300000        # rows of the WHOLE big_matrix log
+  eval_subsample_rows: 100000   # small_matrix rounds scored in Phase 4
+  chunk_size: 500000
+
+gnn:
+  epochs: 20
+  early_stopping_patience: 5
+
+rl:
+  epochs: 30
+  neuralucb_epochs: 5
+  # Per-arm bandits fit one model per action. At 3,327 actions most arms see
+  # almost no data, which is itself a reportable scalability finding -- but it
+  # costs hours to compute. Drop them here and say so, or add them back with time.
+  agents: [Random, IQL, DQN, CQL, BCQ]
+
+ope:
+  n_bootstrap: 50

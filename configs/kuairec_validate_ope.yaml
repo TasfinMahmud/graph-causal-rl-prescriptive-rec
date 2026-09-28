@@ -1,0 +1,49 @@
+extends: kuairec_fast.yaml
+
+# KuaiRec, used to VALIDATE the off-policy estimators against ground truth.
+#
+# This is the configuration behind the strongest result available to this paper.
+# small_matrix is fully observed, so `exact` is the policy's TRUE value -- not an
+# estimate. Running the estimators alongside it lets you measure how wrong each
+# one is. Most OPE papers cannot do this: they have no ground truth to check
+# against.
+#
+# WHAT THE COMPARISON IS, EXACTLY
+# -------------------------------
+# * `exact` -- lookup on small_matrix, averaged over the rounds whose selected
+#   cell was recorded (~99.6% of them). Rows carry `exact_coverage` and
+#   `exact_rounds_masked`; unobserved cells are never imputed as 0.
+# * `dm`, `dr`, `mrdr` -- the reward model is CROSS-FITTED over
+#   `ope.cross_fitting_folds` folds of the evaluation rounds, so no round is
+#   scored by a model that saw it. Fitting q in-sample inflates DM by an amount
+#   that differs per agent and therefore reorders this very table.
+# * `snipw`, `dr`, `mrdr` -- weighted by the evaluation block's OWN propensities,
+#   which are known exactly because the block is an enumeration rather than a
+#   log (pi_b(a|u) = 1/k(u)). This is a rare and strong position for an OPE
+#   study: complete ground truth AND exactly known propensities.
+#
+# TWO CONSEQUENCES TO REPORT RATHER THAN DISCOVER
+# -----------------------------------------------
+# 1. Under an enumerated block a deterministic, user-level policy agrees with
+#    exactly one round per user, so SNIPW reduces to the mean true reward of the
+#    selected action over users -- essentially the exact value. That is a
+#    property of evaluating on a complete block, not a bug. It means the error
+#    this table reports for DM, DR and MRDR is attributable to the REWARD MODEL
+#    alone, which is what makes it a clean validation of those estimators.
+# 2. The rounds replicate contexts: all ~3,314 rounds of a user share one
+#    context, so a context-only policy makes 1,411 distinct decisions, not 4.7M.
+#    The bootstrap resamples ROUNDS, so its interval is roughly sqrt(3,314) ~ 58x
+#    too narrow. Every row carries `n_distinct_contexts`; quote it beside any
+#    interval, or recompute the interval over users.
+#
+# And the task itself is COLD-ITEM: the log contains none of the (evaluation
+# user, evaluation action) pairs. See kuairec.yaml. Every row carries
+# `evaluation_regime`.
+
+experiment_name: kuairec_validate_ope
+
+ope:
+  # `exact` is ground truth. The rest are the estimates being validated.
+  estimators: [exact, dm, dr, mrdr, snipw]
+  n_bootstrap: 50
+  cross_fitting_folds: 5

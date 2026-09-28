@@ -1,0 +1,57 @@
+extends: default.yaml
+
+# Open Bandit Dataset.
+#
+# OBD is the causal and off-policy-evaluation arm of the benchmark, because it
+# is the only one of the two datasets with a *known behaviour policy*: every
+# round carries the logged propensity of the action that was taken. That makes
+# unconfoundedness hold by construction and lets SNIPW/DR/MRDR be computed
+# rather than approximated.
+
+experiment_name: obd
+
+dataset:
+  name: obd
+  loader: obd
+  # policy: which behaviour policy generated the log. This changes what the OPE
+  # estimates mean, so it is pinned here rather than left implicit.
+  #   random -> uniform logging, propensity 1/n_actions
+  #   bts    -> Bernoulli Thompson Sampling, non-uniform logged propensities
+  train_file: bts/all/all.csv
+  eval_file: bts/all/all.csv
+  user_column: user_persona
+  item_column: item_id
+  reward_column: click
+  timestamp_column: timestamp
+  feature_column_patterns: ["user_feature", "user-item_affinity"]
+  categorical_columns: [user_feature_0, user_feature_1, user_feature_2, user_feature_3]
+  num_actions: 80
+  # Subsampling is a legitimate way to keep runtimes manageable. It is applied
+  # with a fixed seed and MUST be stated in any write-up.
+  subsample_rows: 2000000
+  chunk_size: 500000
+  reward_definition: "click (binary, as logged)"
+
+causal:
+  enabled: true
+  # The treatment is the logged action. This is a genuine intervention with a
+  # known assignment probability, unlike a treatment derived from the outcome.
+  # `item_id` is binarised against `treatment_reference` before estimation.
+  treatment_column: item_id
+  outcome_column: click
+  treatment_reference: 0
+  treatment_target: 1
+  use_graph_embeddings: true
+  use_logged_propensity: true
+  # OBD propensities are genuinely small for rarely-shown items. Clipping is
+  # OFF by default because it biases IPW-family estimates; enable it only with
+  # an explicit note in the paper.
+  propensity_clip: null
+
+rl:
+  state_source: gnn_embeddings
+  gnn_architecture: LightGCN
+  cate_reward_weight: 0.0
+
+ope:
+  estimators: [snipw, dr, mrdr]

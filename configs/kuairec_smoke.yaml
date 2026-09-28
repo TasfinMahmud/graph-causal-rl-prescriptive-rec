@@ -1,0 +1,30 @@
+# =====================================================================
+#  SMOKE TEST ONLY. These numbers are throwaway.
+#
+#  Exercises the exact-evaluation path: the big/small protocol, the
+#  shared indexers, the ground-truth lookup and its self-check, and the
+#  estimated behaviour policy. That path is new as of 23 September, so
+#  it is the single most important thing to smoke-test before the real
+#  run.
+#
+#  The paper's numbers come from kuairec.yaml and
+#  kuairec_validate_ope_full.yaml at the full 2,000,000 rows.
+#
+#  Expected wall-clock: a few minutes.
+# =====================================================================
+extends: kuairec_validate_ope.yaml
+experiment_name: kuairec_smoke
+dataset:
+  subsample_rows: 20000
+  eval_subsample_rows: 20000
+  chunk_size: 100000
+gnn:
+  architectures: [LightGCN, GCN]
+  epochs: 3
+  early_stopping_patience: 2
+rl:
+  agents: [Random, DQN, BCQ]
+  epochs: 3
+ope:
+  n_bootstrap: 10
+  estimators: [exact]

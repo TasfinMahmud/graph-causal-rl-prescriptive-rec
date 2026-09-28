@@ -1,0 +1,89 @@
+# =====================================================================
+#  The paper's headline contribution, at full scale.
+#
+#  KuaiRec's small_matrix is fully observed (1,411 users x 3,327 items,
+#  99.6% of cells recorded -- verified against the files on disk), so a
+#  policy's TRUE value can be computed by lookup rather than estimated.
+#  That makes it possible to measure how wrong SNIPW, DM, DR and MRDR
+#  are, instead of only comparing them to each other.
+#
+#  The graph representation is trained on ALL of big_matrix; the policy
+#  on the 10.2M of its rows whose action is one of small_matrix's 3,327
+#  items. The two counts differ because the log contains NONE of the
+#  (evaluation user, evaluation action) pairs -- KuaiRec's authors
+#  removed them -- which makes this a cold-item task with complete
+#  ground truth. See kuairec.yaml for the measured overlap and why the
+#  log must never be filtered by item.
+#
+#  The reward model behind DM, DR and MRDR is cross-fitted over the
+#  evaluation rounds; the propensities behind SNIPW, DR and MRDR are the
+#  block's own, known exactly because it is an enumeration. Both are
+#  recorded in every result row, together with `evaluation_regime` and
+#  `n_distinct_contexts`.
+#
+#  Differs from kuairec_validate_ope.yaml only in extending the FULL
+#  config rather than the fast one -- same estimators, full data.
+# =====================================================================
+extends: kuairec.yaml
+experiment_name: kuairec_validate_ope_full
+ope:
+  estimators: [exact, dm, dr, mrdr, snipw]
+
+  n_bootstrap: 100
+  cross_fitting_folds: 5
+
+# =====================================================================
+#  Only LightGCN is trained here.
+#
+#  Phase 3 and Phase 4 read exactly one encoder -- `rl.gnn_architecture`,
+#  which kuairec.yaml sets to LightGCN. `gnn.architectures` is excluded
+#  from the Phase 1 artefact fingerprint by construction (see
+#  gcrl.cli.embedding_fingerprint), so narrowing it here changes which
+#  encoders are TRAINED and nothing at all about the one that is USED.
+#  The encoder-comparison table comes from the main run's Phase 1.
+#
+#  This config needs its own Phase 1 artefact even though the encoder is
+#  identical to the main run's: `embedding_fingerprint` hashes the whole
+#  dataset section, including `eval_subsample_rows`, which Phase 1 never
+#  reads. The fingerprint is deliberately conservative -- it would rather
+#  retrain than reuse an artefact it cannot prove is the same one. The
+#  resulting .pt is byte-identical to the main run's; that is checked.
+# =====================================================================
+gnn:
+  architectures: [LightGCN]
+
+# =====================================================================
+#  Why the evaluation block is subsampled here, and what it costs.
+#
+#  DM/DR/MRDR fit HistGradientBoostingRegressor on [context,
+#  one-hot(action)]. Context deduplication cannot shrink that matrix:
+#  small_matrix is an ENUMERATION, so its rounds are one per (user, item)
+#  cell and every round is its own training example. sklearn promotes the
+#  hstack to float64, so over all 4,676,570 rounds the fit matrix is
+#  3,741,256 x 3,391 cells = 94.5 GiB. It is refused in the first second
+#  rather than dying hours in. No setting of this machine holds it.
+#
+#  WHAT SUBSAMPLING DOES NOT COST. Every one of the 1,411 evaluation
+#  users is retained. The block is an enumeration, so all of a user's
+#  rounds share one context, one q row and one policy action: `exact` is
+#  a mean over 1,411 user-level numbers either way, and the independent
+#  unit for the bootstrap is still the user.
+#
+#  WHAT IT DOES COST, STATED PLAINLY. q-hat is fitted on fewer
+#  (user, item, reward) triples -- about 190 of a user's 3,327 items at
+#  this setting rather than all of them -- so DM, DR and MRDR come from a
+#  reward model with less data than the full block would give. The
+#  estimator-error table must be read as "measured on a 250,000-round
+#  sample of the fully observed block, all 1,411 users present", not as
+#  the estimators' best achievable accuracy. This is a memory limit, not
+#  a methodological preference, and it is the one number in this study a
+#  larger machine would straightforwardly improve.
+#
+#  WHY 250,000. It is the largest value that leaves headroom for a second
+#  job on 32 GB. Peak fit memory is about 8.8 GiB (float64 hstack 5.4 +
+#  one-hot 2.7 + binning 0.7). 500,000 needs about 17.5 GiB and must be
+#  run with nothing else on the machine. The previous value, 100,000,
+#  was chosen when three jobs were expected to overlap.
+# =====================================================================
+dataset:
+  eval_subsample_rows: 250000

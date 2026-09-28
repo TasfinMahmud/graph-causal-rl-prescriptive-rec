@@ -1,0 +1,33 @@
+extends: obd.yaml
+
+# Reduced-scale OBD profile for a deadline run.
+#
+# Everything here is a SCALE reduction, not a shortcut: the same code paths, the
+# same estimators, the same held-out protocol. Only the number of rows, epochs
+# and bootstrap replicates change.
+#
+# Whatever you run with, the numbers below must be stated in the paper. They are
+# written into results/effective_config_*.yaml automatically.
+
+experiment_name: obd_fast
+
+dataset:
+  # 300k of 12.2M logged rounds, sampled uniformly across the whole campaign
+  # (not a temporal prefix) with the run's seed.
+  subsample_rows: 300000
+  chunk_size: 500000
+
+gnn:
+  epochs: 20
+  early_stopping_patience: 5
+
+rl:
+  epochs: 30
+  neuralucb_epochs: 5
+
+causal:
+  n_estimators: 50
+  dragonnet_epochs: 20
+
+ope:
+  n_bootstrap: 50

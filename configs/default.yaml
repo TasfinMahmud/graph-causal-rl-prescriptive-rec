@@ -1,0 +1,89 @@
+# Shared defaults. Dataset configs inherit from this file via `extends:`.
+#
+# This file is the single source of truth for hyperparameters. Nothing in the
+# codebase reads a tunable value from a literal in a function body, and the
+# effective config of every run is written next to that run's outputs so the
+# paper's implementation-details section can be generated from what actually ran.
+
+experiment_name: default
+seed: 42
+seeds: [42, 43, 44, 45, 46]   # report mean +/- std across these
+device: auto                   # auto | cpu | cuda | cuda:N
+
+paths:
+  root: "."
+  raw_data: data/raw
+  processed_data: data/processed
+  embeddings: artifacts/embeddings
+  cate: artifacts/cate
+  policies: artifacts/policies
+  results: results
+  figures: results/figures
+  logs: logs
+
+split:
+  strategy: temporal           # temporal avoids look-ahead leakage
+  train_ratio: 0.8
+  val_ratio: 0.1
+  test_ratio: 0.1
+  timestamp_column: timestamp
+
+gnn:
+  architectures: [LightGCN, GraphSAGE, GAT, NGCF, GCN]
+  embedding_dim: 64
+  hidden_dim: 128
+  num_layers: 3                # also the sampler's hop count: receptive field == depth
+  gat_heads: 4
+  dropout: 0.2
+  learning_rate: 0.001
+  weight_decay: 0.0
+  epochs: 50
+  node_batch_size: 4096        # identical for every architecture, so losses compare
+  early_stopping_patience: 10
+  early_stopping_min_delta: 0.00001
+  num_negative_samples: 1
+
+causal:
+  enabled: false               # datasets must opt in; see the per-dataset configs
+  estimators: [XLearner, SLearner, GRF, DragonNet]
+  primary_estimator: XLearner
+  use_graph_embeddings: true
+  use_logged_propensity: true
+  propensity_column: propensity_score
+  n_estimators: 100
+  max_depth: 10
+  dragonnet_epochs: 50
+  dragonnet_batch_size: 2048
+  dragonnet_learning_rate: 0.001
+  dragonnet_alpha: 1.0
+
+rl:
+  agents: [Random, LinUCB, NeuralUCB, IQL, DQN, CQL, BCQ]
+  state_source: gnn_embeddings # gnn_embeddings | raw_features  <- the ablation switch
+  gnn_architecture: LightGCN
+  cate_reward_weight: 0.0      # lambda in r = base_reward + lambda * CATE  <- the other switch
+  cate_estimator: XLearner
+  hidden_units: 256
+  num_layers: 2
+  learning_rate: 0.0003
+  batch_size: 256
+  epochs: 100
+  gamma: 0.99
+  target_update_interval: 1000
+  bcq_action_flexibility: 0.3
+  cql_alpha: 5.0
+  iql_expectile: 0.7
+  iql_beta: 3.0
+  linucb_alpha: 1.0
+  linucb_ridge_lambda: 1.0
+  neuralucb_hidden: 100
+  neuralucb_lambda: 1.0
+  neuralucb_nu: 0.1
+  neuralucb_epochs: 10
+
+ope:
+  estimators: [snipw, dr, mrdr]
+  use_logged_propensity: true
+  propensity_column: propensity_score
+  n_bootstrap: 100
+  confidence_level: 0.95

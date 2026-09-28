@@ -1,0 +1,134 @@
+extends: default.yaml
+
+# KuaiRec.
+#
+# KuaiRec is the *exact evaluation* and *graph representation* arm of the
+# benchmark. Its `small_matrix` is fully observed, so a policy's value there is
+# computed by lookup with near-zero estimator error -- a stronger guarantee than
+# any off-policy estimator provides. It also ships a real user-user social graph.
+#
+# HOW THE TWO FILES ACTUALLY RELATE  (measured, not assumed)
+# ----------------------------------------------------------
+#   small users                              1,411
+#   ...present in big_matrix                 1,411    (all of them)
+#   their rows in big_matrix               571,061    over 6,334 OTHER items
+#   small items                              3,327
+#   ...rows in big_matrix               10,272,525    from 5,765 OTHER users
+#   (small user, small item) rows in big         0    <-- empty, by construction
+#
+# KuaiRec's authors deleted the fully observed block's (user, item) pairs from
+# the sparse log to prevent leakage. Both populations are in the log; only their
+# intersection is empty. Filtering the training log to small_matrix's item
+# universe would therefore delete precisely the 1,411 users the block exists to
+# evaluate, and the pipeline refuses to run under that configuration.
+#
+# WHAT THIS CONFIG RUNS
+# ---------------------
+#   1. The action space is small_matrix's item universe (3,327 videos). Those
+#      are the only actions whose counterfactual reward is known, so they are
+#      the only actions a policy may be scored on.
+#   2. The GRAPH REPRESENTATION is trained on EVERY row of big_matrix. It has
+#      to be: the evaluation users' entire history lies outside the action
+#      space. This is what embeds the evaluation users at all.
+#   3. The POLICY is trained on the subset of those rows whose action is inside
+#      the action space -- an agent cannot take an action outside its own action
+#      set. On the real files that is the 10.2M rows contributed by the other
+#      5,765 users. Both counts are reported as `representation_rows` and
+#      `policy_rows`.
+#   4. Train and validation are a temporal cut of the log (8:1). The test
+#      partition is small_matrix in full; no row of it is ever trained on.
+#   5. ONE user indexer and ONE item indexer span both files, and Phase 4 checks
+#      that the ground-truth block reproduces the logged reward of every
+#      evaluation round. An unshared index would otherwise line the same raw id
+#      up against a different row and go unnoticed.
+#
+# WHAT THE EVALUATION THEREFORE MEASURES:  COLD-ITEM RECOMMENDATION.
+# ------------------------------------------------------------------
+# Every (user, action) pair Phase 4 scores is one the log has never contained.
+# The evaluation users are reached through their own history over other items;
+# the evaluation actions are reached through other users' history. The only
+# route from one to the other is the graph -- a three-hop path (evaluation user
+# -> an item they watched -> another user -> an evaluation item), which is
+# exactly what `gnn.num_layers: 3` spans.
+#
+# This is a STRONGER contribution than the warm-start reading the code used to
+# imply, and it must be described as cold-item in the paper:
+#   * no estimator can score well by memorising a logged outcome, because there
+#     is no logged outcome for any pair being scored;
+#   * the `gnn_embeddings` vs `raw_features` ablation tests something necessary
+#     rather than merely helpful -- a tabular state has no route at all;
+#   * the ground truth is still ~99.6% complete, so every counterfactual the
+#     policy could choose has a known answer.
+# It is NOT a warm-start recommendation result and must not be reported as one.
+# `evaluation_regime` is written into every Phase 4 row so the table carries it.
+
+experiment_name: kuairec
+
+dataset:
+  name: kuairec
+  loader: kuairec
+  train_file: big_matrix.csv      # sparse observational log -> representation + policy
+  eval_file: small_matrix.csv     # fully observed block      -> exact evaluation
+  user_column: user_id
+  item_column: video_id
+  reward_column: reward
+  timestamp_column: timestamp
+  feature_columns: [video_duration]
+  # The action space is the EVALUATION block's item universe, not big_matrix's
+  # 10,728 videos: a policy selecting an item outside it has no ground truth.
+  # The training log is NOT filtered to it -- see above.
+  num_actions: 3327
+  subsample_rows: 2000000         # rows kept from the WHOLE training log
+  eval_subsample_rows: null       # null = score every small_matrix row
+  chunk_size: 500000
+  social_graph_file: social_network.csv
+  # Every KuaiRec number depends on this rule, so it is declared here and
+  # reported rather than left in a line of preprocessing code.
+  reward_definition: "1[watch_ratio >= 2.0]"
+
+causal:
+  # DISABLED, deliberately.
+  #
+  # KuaiRec contains no randomised intervention. Any treatment definable from
+  # this data is a function of observed behaviour, and the obvious candidate --
+  # thresholding watch_ratio -- is circular: watch_ratio = play_duration /
+  # video_duration, and play_duration is the outcome. Under that definition the
+  # estimators return large, plausible-looking CATE values that measure
+  # nothing.
+  #
+  # `gcrl.models.causal.check_treatment_provenance` will refuse such a setup
+  # using the lineage declared in `gcrl.data.kuairec.KUAIREC_PROVENANCE`.
+  # Uplift claims in this benchmark come from OBD only.
+  enabled: false
+
+rl:
+  state_source: gnn_embeddings
+  gnn_architecture: LightGCN
+  cate_reward_weight: 0.0        # no CATE available here; see causal.enabled
+
+ope:
+  # Exact lookup on the fully observed block.
+  #
+  # ~99.6% of the (user, item) cells of small_matrix are recorded. The remaining
+  # ~0.4% are MASKED OUT of the expectation, not imputed as reward 0: an exact
+  # value is reported as a mean over the cells whose reward was genuinely
+  # recorded, and every result row carries `exact_coverage` plus the per-agent
+  # `exact_rounds_masked` count so the conditioning is quotable.
+  estimators: [exact]
+  # PROPENSITIES COME FROM TWO DIFFERENT PROCESSES, and every row says so.
+  #
+  # The evaluation rounds are not a log: small_matrix is an ENUMERATION, every
+  # catalogue item played for every user in the block. Its pi_b(a|u) is
+  # therefore known exactly -- n(u,a)/n(u), i.e. 1/k(u) -- read off the block's
+  # (user, action) pairs with no outcome involved. That is what Phase 4 uses.
+  #
+  # This setting applies only to the SPARSE LOG's partitions, which no estimator
+  # in Phase 4 consumes. `estimated` fits pi_b(a|u) from the training rows (a
+  # per-user action distribution shrunk toward the marginal) so the log's own
+  # behaviour policy is characterised in the dataset summary rather than left as
+  # an unlabelled constant.
+  behaviour_policy: estimated
+  behaviour_policy_shrinkage: 10.0
+  # Folds for cross-fitting the DM/DR/MRDR reward model. Unused while only
+  # `exact` is requested; see kuairec_validate_ope.yaml.
+  cross_fitting_folds: 5
