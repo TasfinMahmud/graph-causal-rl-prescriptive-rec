@@ -43,16 +43,13 @@ Both figures are generated from `results/` by
 [`scripts/make_figures.py`](scripts/make_figures.py); neither contains a
 transcribed number.
 
-![Exact policy value of every agent against the oracle, the best constant
-policy and a popularity heuristic, on KuaiRec's fully observed evaluation
-block](docs/figures/fig_value_ladder.png)
+![Exact policy value of every agent against three reference policies](docs/figures/fig_value_ladder.png)
 
 *Exact policy value on KuaiRec's fully observed block. Dashed rules mark the
 three reference policies. No agent exceeds the best constant policy, and the
 highest-scoring agent selects a single item for all 1,411 users.*
 
-![Signed error of four off-policy estimators against the exact policy value,
-for seven agents](docs/figures/fig_estimator_error.png)
+![Signed error of four off-policy estimators against the exact policy value](docs/figures/fig_estimator_error.png)
 
 *Signed estimator error against exact ground truth. The direct method and
 doubly robust estimation are roughly 2.7 times more accurate than
