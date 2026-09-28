@@ -1,0 +1,86 @@
+[
+  {
+    "agent": "Random",
+    "dataset": "obd",
+    "state_source": "gnn_embeddings",
+    "state_dim": 64,
+    "n_actions": 80,
+    "n_train_rounds": 1599990,
+    "cate_reward_weight": 0.0,
+    "training_seconds": 0.002299070358276367,
+    "seed": 42,
+    "policy_path": "E:\\Tasfin_Research\\abcd_work\\code\\artifacts\\policies\\obd_Random_gnn_embeddings_seed42.pt"
+  },
+  {
+    "agent": "LinUCB",
+    "dataset": "obd",
+    "state_source": "gnn_embeddings",
+    "state_dim": 64,
+    "n_actions": 80,
+    "n_train_rounds": 1599990,
+    "cate_reward_weight": 0.0,
+    "training_seconds": 1.570518970489502,
+    "seed": 42,
+    "policy_path": "E:\\Tasfin_Research\\abcd_work\\code\\artifacts\\policies\\obd_LinUCB_gnn_embeddings_seed42.pt"
+  },
+  {
+    "agent": "NeuralUCB",
+    "dataset": "obd",
+    "state_source": "gnn_embeddings",
+    "state_dim": 64,
+    "n_actions": 80,
+    "n_train_rounds": 1599990,
+    "cate_reward_weight": 0.0,
+    "training_seconds": 149.26947116851807,
+    "seed": 42,
+    "policy_path": "E:\\Tasfin_Research\\abcd_work\\code\\artifacts\\policies\\obd_NeuralUCB_gnn_embeddings_seed42.pt"
+  },
+  {
+    "agent": "IQL",
+    "dataset": "obd",
+    "state_source": "gnn_embeddings",
+    "state_dim": 64,
+    "n_actions": 80,
+    "n_train_rounds": 1599990,
+    "cate_reward_weight": 0.0,
+    "training_seconds": 5251.0210819244385,
+    "seed": 42,
+    "policy_path": "E:\\Tasfin_Research\\abcd_work\\code\\artifacts\\policies\\obd_IQL_gnn_embeddings_seed42.pt"
+  },
+  {
+    "agent": "DQN",
+    "dataset": "obd",
+    "state_source": "gnn_embeddings",
+    "state_dim": 64,
+    "n_actions": 80,
+    "n_train_rounds": 1599990,
+    "cate_reward_weight": 0.0,
+    "training_seconds": 7491.2736303806305,
+    "seed": 42,
+    "policy_path": "E:\\Tasfin_Research\\abcd_work\\code\\artifacts\\policies\\obd_DQN_gnn_embeddings_seed42.pt"
+  },
+  {
+    "agent": "CQL",
+    "dataset": "obd",
+    "state_source": "gnn_embeddings",
+    "state_dim": 64,
+    "n_actions": 80,
+    "n_train_rounds": 1599990,
+    "cate_reward_weight": 0.0,
+    "training_seconds": 8861.361709833145,
+    "seed": 42,
+    "policy_path": "E:\\Tasfin_Research\\abcd_work\\code\\artifacts\\policies\\obd_CQL_gnn_embeddings_seed42.pt"
+  },
+  {
+    "agent": "BCQ",
+    "dataset": "obd",
+    "state_source": "gnn_embeddings",
+    "state_dim": 64,
+    "n_actions": 80,
+    "n_train_rounds": 1599990,
+    "cate_reward_weight": 0.0,
+    "training_seconds": 9909.092691421509,
+    "seed": 42,
+    "policy_path": "E:\\Tasfin_Research\\abcd_work\\code\\artifacts\\policies\\obd_BCQ_gnn_embeddings_seed42.pt"
+  }
+]

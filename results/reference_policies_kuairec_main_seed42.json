@@ -1,0 +1,295 @@
+{
+  "experiment": "kuairec_main",
+  "dataset": "kuairec",
+  "state_source": "gnn_embeddings",
+  "seed": 42,
+  "n_contexts": 1411,
+  "n_rounds": 4676570,
+  "n_actions": 3327,
+  "block_coverage": 0.9962024941648523,
+  "reference": {
+    "oracle": {
+      "value": 1.0,
+      "rounds_scored": 4676570,
+      "rounds_masked": 0,
+      "note": "best available action per user; the ceiling on this block"
+    },
+    "best_constant": {
+      "value": 0.7250850516511033,
+      "action": 1396,
+      "rounds_scored": 4676570,
+      "note": "one action for every user; the strongest non-personalised policy"
+    },
+    "best_constant_top5": [
+      {
+        "action": 1396,
+        "value": 0.7250850516511033,
+        "rounds_observed": 4676570
+      },
+      {
+        "action": 2477,
+        "value": 0.7222346719925073,
+        "rounds_observed": 4676570
+      },
+      {
+        "action": 2980,
+        "value": 0.7092982451452701,
+        "rounds_observed": 4491084
+      },
+      {
+        "action": 70,
+        "value": 0.6988222137164631,
+        "rounds_observed": 4676570
+      },
+      {
+        "action": 19,
+        "value": 0.6714690612043525,
+        "rounds_observed": 4669962
+      }
+    ],
+    "train_popularity": {
+      "min_count_for_rate": 100,
+      "most_interactions": {
+        "action": 2611,
+        "exact_value": 0.0014172780477999902,
+        "rank_among_constants": 3179,
+        "log_interactions": 3752,
+        "log_reward_rate": 0.0021321961620469083,
+        "rounds_observed": 4676570
+      },
+      "highest_logged_reward_rate": {
+        "action": 70,
+        "exact_value": 0.6988222137164631,
+        "rank_among_constants": 4,
+        "log_interactions": 877,
+        "log_reward_rate": 0.6351197263397947,
+        "rounds_observed": 4676570
+      }
+    },
+    "duration_confound": {
+      "feature": "video_duration (the only tabular column)",
+      "n_items_compared": 3306,
+      "spearman_rho": -0.9540250793376804,
+      "spearman_p": 0.0,
+      "median_duration_all_items": 9597.664785189008,
+      "top5_constants": [
+        {
+          "action": 1396,
+          "exact_value": 0.7250850516511033,
+          "duration": 3092.096997690531,
+          "duration_vs_median": 0.322171806048302
+        },
+        {
+          "action": 2477,
+          "exact_value": 0.7222346719925073,
+          "duration": 3067.0,
+          "duration_vs_median": 0.31955689937545584
+        },
+        {
+          "action": 2980,
+          "exact_value": 0.7092982451452701,
+          "duration": 3102.1176470588234,
+          "duration_vs_median": 0.32321587766286347
+        },
+        {
+          "action": 70,
+          "exact_value": 0.6988222137164631,
+          "duration": 3067.0,
+          "duration_vs_median": 0.31955689937545584
+        },
+        {
+          "action": 19,
+          "exact_value": 0.6714690612043525,
+          "duration": 3167.0,
+          "duration_vs_median": 0.32997610052887794
+        }
+      ]
+    }
+  },
+  "agents": {
+    "Random": {
+      "stochastic": true,
+      "note": "no per-context action"
+    },
+    "LinUCB": {
+      "n_distinct_actions": 4,
+      "n_contexts": 1411,
+      "top_action": 635,
+      "top_action_share": 0.9829939464179944,
+      "entropy_nats": 0.09999889921281598,
+      "max_entropy_nats": 8.109826276018477,
+      "collapsed": false,
+      "exact_value_recomputed": 0.05540111292349236,
+      "rounds_scored": 4484585,
+      "rounds_masked": 191985,
+      "top_action_rank_among_constants": 1021,
+      "personalisation": {
+        "realised": 0.05540111292349236,
+        "shuffled_mean": 0.05416399890389542,
+        "shuffled_std": 0.0018040260920940841,
+        "gain_from_matching": 0.0012371140195969396,
+        "z_score": 0.6857517333138556,
+        "p_value": 0.2835820895522388,
+        "n_permutations": 200,
+        "usable": true
+      },
+      "duration_adjusted": {
+        "exact_value": 0.05540111292349236,
+        "duration_predicted": 0.03750811132972632,
+        "duration_adjusted_residual": 0.017893001593766042,
+        "rounds_scored": 4484585,
+        "rounds_masked": 191985
+      }
+    },
+    "NeuralUCB": {
+      "n_distinct_actions": 1,
+      "n_contexts": 1411,
+      "top_action": 2980,
+      "top_action_share": 1.0,
+      "entropy_nats": -0.0,
+      "max_entropy_nats": 8.109826276018477,
+      "collapsed": true,
+      "exact_value_recomputed": 0.7092982451452701,
+      "rounds_scored": 4491084,
+      "rounds_masked": 185486,
+      "top_action_rank_among_constants": 3,
+      "personalisation": {
+        "realised": 0.7092982451452701,
+        "shuffled_mean": 0.70929824514527,
+        "shuffled_std": 1.1130090340862554e-16,
+        "gain_from_matching": 1.1102230246251565e-16,
+        "z_score": 0.9974968671630001,
+        "p_value": 1.0,
+        "n_permutations": 200,
+        "usable": true
+      },
+      "duration_adjusted": {
+        "exact_value": 0.7092982451452701,
+        "duration_predicted": 0.7092982451452701,
+        "duration_adjusted_residual": -2.106116229052597e-17,
+        "rounds_scored": 4491084,
+        "rounds_masked": 185486
+      }
+    },
+    "IQL": {
+      "n_distinct_actions": 486,
+      "n_contexts": 1411,
+      "top_action": 1714,
+      "top_action_share": 0.043231470928479634,
+      "entropy_nats": 5.635981755454372,
+      "max_entropy_nats": 8.109826276018477,
+      "collapsed": false,
+      "exact_value_recomputed": 0.09951140371167312,
+      "rounds_scored": 4630203,
+      "rounds_masked": 46367,
+      "top_action_rank_among_constants": 79,
+      "personalisation": {
+        "realised": 0.09951140371167312,
+        "shuffled_mean": 0.10795408603502167,
+        "shuffled_std": 0.006963508945805973,
+        "gain_from_matching": -0.00844268232334855,
+        "z_score": -1.212417818237092,
+        "p_value": 0.8805970149253731,
+        "n_permutations": 200,
+        "usable": true
+      },
+      "duration_adjusted": {
+        "exact_value": 0.09951140371167312,
+        "duration_predicted": 0.10438157318901513,
+        "duration_adjusted_residual": -0.004870169477342011,
+        "rounds_scored": 4630203,
+        "rounds_masked": 46367
+      }
+    },
+    "DQN": {
+      "n_distinct_actions": 10,
+      "n_contexts": 1411,
+      "top_action": 135,
+      "top_action_share": 0.9858182385808403,
+      "entropy_nats": 0.09957065952770756,
+      "max_entropy_nats": 8.109826276018477,
+      "collapsed": false,
+      "exact_value_recomputed": 0.05030374825994265,
+      "rounds_scored": 4676570,
+      "rounds_masked": 0,
+      "top_action_rank_among_constants": 1123,
+      "personalisation": {
+        "realised": 0.05030374825994265,
+        "shuffled_mean": 0.05076912245513272,
+        "shuffled_std": 0.0016729626700758217,
+        "gain_from_matching": -0.00046537419519007,
+        "z_score": -0.27817368762267625,
+        "p_value": 0.572139303482587,
+        "n_permutations": 200,
+        "usable": true
+      },
+      "duration_adjusted": {
+        "exact_value": 0.05030374825994265,
+        "duration_predicted": 0.04370802609794763,
+        "duration_adjusted_residual": 0.00659572216199502,
+        "rounds_scored": 4676570,
+        "rounds_masked": 0
+      }
+    },
+    "CQL": {
+      "n_distinct_actions": 287,
+      "n_contexts": 1411,
+      "top_action": 2611,
+      "top_action_share": 0.4082325293965449,
+      "entropy_nats": 3.4378696853826947,
+      "max_entropy_nats": 8.109826276018477,
+      "collapsed": false,
+      "exact_value_recomputed": 0.027038240161865665,
+      "rounds_scored": 4656701,
+      "rounds_masked": 19869,
+      "top_action_rank_among_constants": 3179,
+      "personalisation": {
+        "realised": 0.027038240161865665,
+        "shuffled_mean": 0.024548980938591588,
+        "shuffled_std": 0.00349549151222246,
+        "gain_from_matching": 0.002489259223274077,
+        "z_score": 0.7121342490948825,
+        "p_value": 0.22885572139303484,
+        "n_permutations": 200,
+        "usable": true
+      },
+      "duration_adjusted": {
+        "exact_value": 0.027038240161865665,
+        "duration_predicted": 0.022452922097894717,
+        "duration_adjusted_residual": 0.004585318063970946,
+        "rounds_scored": 4656701,
+        "rounds_masked": 19869
+      }
+    },
+    "BCQ": {
+      "n_distinct_actions": 343,
+      "n_contexts": 1411,
+      "top_action": 2990,
+      "top_action_share": 0.1147349446282211,
+      "entropy_nats": 4.993656083111931,
+      "max_entropy_nats": 8.109826276018477,
+      "collapsed": false,
+      "exact_value_recomputed": 0.15586259935119523,
+      "rounds_scored": 4636834,
+      "rounds_masked": 39736,
+      "top_action_rank_among_constants": 3254,
+      "personalisation": {
+        "realised": 0.15586259935119523,
+        "shuffled_mean": 0.15770549127684386,
+        "shuffled_std": 0.008343089990722946,
+        "gain_from_matching": -0.0018428919256486265,
+        "z_score": -0.2208884151672606,
+        "p_value": 0.6019900497512438,
+        "n_permutations": 200,
+        "usable": true
+      },
+      "duration_adjusted": {
+        "exact_value": 0.15586259935119523,
+        "duration_predicted": 0.1503209321921002,
+        "duration_adjusted_residual": 0.005541667159095049,
+        "rounds_scored": 4636834,
+        "rounds_masked": 39736
+      }
+    }
+  }
+}

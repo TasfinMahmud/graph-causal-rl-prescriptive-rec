@@ -1,0 +1,86 @@
+[
+  {
+    "agent": "Random",
+    "dataset": "kuairec",
+    "state_source": "gnn_embeddings",
+    "state_dim": 64,
+    "n_actions": 3327,
+    "n_train_rounds": 1480517,
+    "cate_reward_weight": 0.0,
+    "training_seconds": 0.0008542537689208984,
+    "seed": 42,
+    "policy_path": "E:\\Tasfin_Research\\abcd_work\\code\\artifacts\\policies\\kuairec_Random_gnn_embeddings_seed42.pt"
+  },
+  {
+    "agent": "LinUCB",
+    "dataset": "kuairec",
+    "state_source": "gnn_embeddings",
+    "state_dim": 64,
+    "n_actions": 3327,
+    "n_train_rounds": 1480517,
+    "cate_reward_weight": 0.0,
+    "training_seconds": 13.547807455062866,
+    "seed": 42,
+    "policy_path": "E:\\Tasfin_Research\\abcd_work\\code\\artifacts\\policies\\kuairec_LinUCB_gnn_embeddings_seed42.pt"
+  },
+  {
+    "agent": "NeuralUCB",
+    "dataset": "kuairec",
+    "state_source": "gnn_embeddings",
+    "state_dim": 64,
+    "n_actions": 3327,
+    "n_train_rounds": 1480517,
+    "cate_reward_weight": 0.0,
+    "training_seconds": 378.20335483551025,
+    "seed": 42,
+    "policy_path": "E:\\Tasfin_Research\\abcd_work\\code\\artifacts\\policies\\kuairec_NeuralUCB_gnn_embeddings_seed42.pt"
+  },
+  {
+    "agent": "IQL",
+    "dataset": "kuairec",
+    "state_source": "gnn_embeddings",
+    "state_dim": 64,
+    "n_actions": 3327,
+    "n_train_rounds": 1480517,
+    "cate_reward_weight": 0.0,
+    "training_seconds": 6198.9417452812195,
+    "seed": 42,
+    "policy_path": "E:\\Tasfin_Research\\abcd_work\\code\\artifacts\\policies\\kuairec_IQL_gnn_embeddings_seed42.pt"
+  },
+  {
+    "agent": "DQN",
+    "dataset": "kuairec",
+    "state_source": "gnn_embeddings",
+    "state_dim": 64,
+    "n_actions": 3327,
+    "n_train_rounds": 1480517,
+    "cate_reward_weight": 0.0,
+    "training_seconds": 6969.415235280991,
+    "seed": 42,
+    "policy_path": "E:\\Tasfin_Research\\abcd_work\\code\\artifacts\\policies\\kuairec_DQN_gnn_embeddings_seed42.pt"
+  },
+  {
+    "agent": "CQL",
+    "dataset": "kuairec",
+    "state_source": "gnn_embeddings",
+    "state_dim": 64,
+    "n_actions": 3327,
+    "n_train_rounds": 1480517,
+    "cate_reward_weight": 0.0,
+    "training_seconds": 8392.404793977737,
+    "seed": 42,
+    "policy_path": "E:\\Tasfin_Research\\abcd_work\\code\\artifacts\\policies\\kuairec_CQL_gnn_embeddings_seed42.pt"
+  },
+  {
+    "agent": "BCQ",
+    "dataset": "kuairec",
+    "state_source": "gnn_embeddings",
+    "state_dim": 64,
+    "n_actions": 3327,
+    "n_train_rounds": 1480517,
+    "cate_reward_weight": 0.0,
+    "training_seconds": 9206.005964756012,
+    "seed": 42,
+    "policy_path": "E:\\Tasfin_Research\\abcd_work\\code\\artifacts\\policies\\kuairec_BCQ_gnn_embeddings_seed42.pt"
+  }
+]

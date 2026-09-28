@@ -1,0 +1,16 @@
+[
+  {
+    "architecture": "GraphSAGE",
+    "dataset": "kuairec_sage",
+    "best_val_bpr_loss": 0.31459084153175354,
+    "final_train_bpr_loss": 0.27959597024021954,
+    "best_epoch": 11,
+    "epochs_run": 21,
+    "early_stopped": true,
+    "training_seconds": 459.9874439239502,
+    "n_parameters": 66176,
+    "embedding_path": "E:\\Tasfin_Research\\abcd_work\\code\\artifacts\\embeddings\\kuairec_sage_GraphSAGE_seed42_2207a18283fb1555d6c7_embeddings.pt",
+    "seed": 42,
+    "peak_memory_mb": 4749.525390625
+  }
+]

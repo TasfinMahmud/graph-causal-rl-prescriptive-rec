@@ -1,0 +1,154 @@
+{
+  "experiment": "kuairec_validate_ope_full",
+  "dataset": "kuairec",
+  "state_source": "gnn_embeddings",
+  "seed": 42,
+  "n_contexts": 1411,
+  "n_rounds": 250000,
+  "n_actions": 3327,
+  "block_coverage": 0.9962024941648523,
+  "reference": {
+    "oracle": {
+      "value": 1.0,
+      "rounds_scored": 250000,
+      "rounds_masked": 0,
+      "note": "best available action per user; the ceiling on this block"
+    },
+    "best_constant": {
+      "value": 0.724228,
+      "action": 1396,
+      "rounds_scored": 250000,
+      "note": "one action for every user; the strongest non-personalised policy"
+    },
+    "best_constant_top5": [
+      {
+        "action": 1396,
+        "value": 0.724228,
+        "rounds_observed": 250000
+      },
+      {
+        "action": 2477,
+        "value": 0.722364,
+        "rounds_observed": 250000
+      },
+      {
+        "action": 2980,
+        "value": 0.7084302942755925,
+        "rounds_observed": 240217
+      },
+      {
+        "action": 70,
+        "value": 0.698996,
+        "rounds_observed": 250000
+      },
+      {
+        "action": 19,
+        "value": 0.6725097239636117,
+        "rounds_observed": 249641
+      }
+    ],
+    "train_popularity": {
+      "min_count_for_rate": 100,
+      "most_interactions": {
+        "action": 2611,
+        "exact_value": 0.00142,
+        "rank_among_constants": 3188,
+        "log_interactions": 3752,
+        "log_reward_rate": 0.0021321961620469083,
+        "rounds_observed": 250000
+      },
+      "highest_logged_reward_rate": {
+        "action": 70,
+        "exact_value": 0.698996,
+        "rank_among_constants": 4,
+        "log_interactions": 877,
+        "log_reward_rate": 0.6351197263397947,
+        "rounds_observed": 250000
+      }
+    }
+  },
+  "agents": {
+    "Random": {
+      "stochastic": true,
+      "note": "no per-context action"
+    },
+    "LinUCB": {
+      "n_distinct_actions": 4,
+      "n_contexts": 1411,
+      "top_action": 635,
+      "top_action_share": 0.983032,
+      "entropy_nats": 0.09980607104164436,
+      "max_entropy_nats": 8.109826276018477,
+      "collapsed": false,
+      "exact_value_recomputed": 0.05499989577036126,
+      "rounds_scored": 239855,
+      "rounds_masked": 10145,
+      "top_action_rank_among_constants": 1025
+    },
+    "NeuralUCB": {
+      "n_distinct_actions": 1,
+      "n_contexts": 1411,
+      "top_action": 2980,
+      "top_action_share": 1.0,
+      "entropy_nats": -0.0,
+      "max_entropy_nats": 8.109826276018477,
+      "collapsed": true,
+      "exact_value_recomputed": 0.7084302942755925,
+      "rounds_scored": 240217,
+      "rounds_masked": 9783,
+      "top_action_rank_among_constants": 3
+    },
+    "IQL": {
+      "n_distinct_actions": 486,
+      "n_contexts": 1411,
+      "top_action": 1714,
+      "top_action_share": 0.043408,
+      "entropy_nats": 5.629971132123418,
+      "max_entropy_nats": 8.109826276018477,
+      "collapsed": false,
+      "exact_value_recomputed": 0.09911587348387853,
+      "rounds_scored": 247589,
+      "rounds_masked": 2411,
+      "top_action_rank_among_constants": 78
+    },
+    "DQN": {
+      "n_distinct_actions": 10,
+      "n_contexts": 1411,
+      "top_action": 135,
+      "top_action_share": 0.985796,
+      "entropy_nats": 0.09946669889238416,
+      "max_entropy_nats": 8.109826276018477,
+      "collapsed": false,
+      "exact_value_recomputed": 0.05118,
+      "rounds_scored": 250000,
+      "rounds_masked": 0,
+      "top_action_rank_among_constants": 1107
+    },
+    "CQL": {
+      "n_distinct_actions": 287,
+      "n_contexts": 1411,
+      "top_action": 2611,
+      "top_action_share": 0.406964,
+      "entropy_nats": 3.443650075643403,
+      "max_entropy_nats": 8.109826276018477,
+      "collapsed": false,
+      "exact_value_recomputed": 0.02678044135902906,
+      "rounds_scored": 248913,
+      "rounds_masked": 1087,
+      "top_action_rank_among_constants": 3188
+    },
+    "BCQ": {
+      "n_distinct_actions": 343,
+      "n_contexts": 1411,
+      "top_action": 2990,
+      "top_action_share": 0.115492,
+      "entropy_nats": 4.990570210219936,
+      "max_entropy_nats": 8.109826276018477,
+      "collapsed": false,
+      "exact_value_recomputed": 0.15575578886231362,
+      "rounds_scored": 247933,
+      "rounds_masked": 2067,
+      "top_action_rank_among_constants": 3266
+    }
+  }
+}

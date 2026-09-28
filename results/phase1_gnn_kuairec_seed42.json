@@ -1,0 +1,44 @@
+[
+  {
+    "architecture": "LightGCN",
+    "dataset": "kuairec",
+    "best_val_bpr_loss": 0.3558446764945984,
+    "final_train_bpr_loss": 0.35556988591554933,
+    "best_epoch": 12,
+    "epochs_run": 22,
+    "early_stopped": true,
+    "training_seconds": 721.0026063919067,
+    "n_parameters": 4160,
+    "embedding_path": "E:\\Tasfin_Research\\abcd_work\\code\\artifacts\\embeddings\\kuairec_LightGCN_seed42_bdd69c61f079b90a8c57_embeddings.pt",
+    "seed": 42,
+    "peak_memory_mb": 3202.4365234375
+  },
+  {
+    "architecture": "GraphSAGE",
+    "dataset": "kuairec",
+    "best_val_bpr_loss": 0.3151586055755615,
+    "final_train_bpr_loss": 0.27836132396465885,
+    "best_epoch": 12,
+    "epochs_run": 22,
+    "early_stopped": true,
+    "training_seconds": 565.749584197998,
+    "n_parameters": 66176,
+    "embedding_path": "E:\\Tasfin_Research\\abcd_work\\code\\artifacts\\embeddings\\kuairec_GraphSAGE_seed42_6ad1d64c8cece323eae0_embeddings.pt",
+    "seed": 42,
+    "peak_memory_mb": 4748.720703125
+  },
+  {
+    "architecture": "GCN",
+    "dataset": "kuairec",
+    "best_val_bpr_loss": 0.3150673508644104,
+    "final_train_bpr_loss": 0.30076333659666554,
+    "best_epoch": 35,
+    "epochs_run": 45,
+    "early_stopped": true,
+    "training_seconds": 1868.5439760684967,
+    "n_parameters": 33088,
+    "embedding_path": "E:\\Tasfin_Research\\abcd_work\\code\\artifacts\\embeddings\\kuairec_GCN_seed42_121aa4f6e8ee1e761c26_embeddings.pt",
+    "seed": 42,
+    "peak_memory_mb": 4816.92578125
+  }
+]

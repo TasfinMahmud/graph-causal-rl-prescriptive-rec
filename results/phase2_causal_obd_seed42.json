@@ -1,0 +1,78 @@
+{
+  "diagnostics": {
+    "n_units": 1999988,
+    "treatment_balance": 0.9855644133864803,
+    "outcome_treatment_correlation": 0.0026592903190418237,
+    "overlap_violations": 20847,
+    "warnings": [
+      "20,847 units have propensity outside [0.001, 0.999]; inverse weights for these units dominate any IPW-family estimate"
+    ]
+  },
+  "covariate_source": "gnn_embeddings:LightGCN",
+  "estimators": [
+    {
+      "estimator": "XLearner",
+      "dataset": "obd",
+      "covariate_source": "gnn_embeddings:LightGCN",
+      "n_train": 1599990,
+      "n_scored": 1999988,
+      "cate_mean": 0.001159083987561395,
+      "cate_variance": 6.388338203559986e-05,
+      "cate_std": 0.007992708053945162,
+      "fraction_positive": 0.9058494350966105,
+      "is_degenerate": false,
+      "qini": 1.7267497384249846,
+      "fitting_seconds": 1018.1807887554169,
+      "seed": 42,
+      "cate_path": "E:\\Tasfin_Research\\abcd_work\\code\\artifacts\\cate\\obd_XLearner_seed42_e7e64802aceb8c2bdfde_cate.npy"
+    },
+    {
+      "estimator": "SLearner",
+      "dataset": "obd",
+      "covariate_source": "gnn_embeddings:LightGCN",
+      "n_train": 1599990,
+      "n_scored": 1999988,
+      "cate_mean": 0.0007799300300174222,
+      "cate_variance": 2.1292173367538372e-05,
+      "cate_std": 0.004614344305265741,
+      "fraction_positive": 0.9075069450416703,
+      "is_degenerate": false,
+      "qini": 1.6631654593528025,
+      "fitting_seconds": 481.13460063934326,
+      "seed": 42,
+      "cate_path": "E:\\Tasfin_Research\\abcd_work\\code\\artifacts\\cate\\obd_SLearner_seed42_c008bc520b2da876d02a_cate.npy"
+    },
+    {
+      "estimator": "GRF",
+      "dataset": "obd",
+      "covariate_source": "gnn_embeddings:LightGCN",
+      "n_train": 1599990,
+      "n_scored": 1999988,
+      "cate_mean": 0.0013574268871058839,
+      "cate_variance": 4.600731480446463e-05,
+      "cate_std": 0.006782869216228824,
+      "fraction_positive": 0.900749904499427,
+      "is_degenerate": false,
+      "qini": 1.7762150465289768,
+      "fitting_seconds": 1115.0638139247894,
+      "seed": 42,
+      "cate_path": "E:\\Tasfin_Research\\abcd_work\\code\\artifacts\\cate\\obd_GRF_seed42_aa23ae6663f1f80698f9_cate.npy"
+    },
+    {
+      "estimator": "DragonNet",
+      "dataset": "obd",
+      "covariate_source": "gnn_embeddings:LightGCN",
+      "n_train": 1599990,
+      "n_scored": 1999988,
+      "cate_mean": -0.00447973794041476,
+      "cate_variance": 9.789829554841726e-06,
+      "cate_std": 0.003128870332059436,
+      "fraction_positive": 0.00029700178201069207,
+      "is_degenerate": false,
+      "qini": 1.5174454848285275,
+      "fitting_seconds": 288.955438375473,
+      "seed": 42,
+      "cate_path": "E:\\Tasfin_Research\\abcd_work\\code\\artifacts\\cate\\obd_DragonNet_seed42_db1373793a4403614926_cate.npy"
+    }
+  ]
+}

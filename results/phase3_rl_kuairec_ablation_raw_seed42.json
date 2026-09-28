@@ -1,0 +1,86 @@
+[
+  {
+    "agent": "Random",
+    "dataset": "kuairec",
+    "state_source": "raw_features",
+    "state_dim": 1,
+    "n_actions": 3327,
+    "n_train_rounds": 1480517,
+    "cate_reward_weight": 0.0,
+    "training_seconds": 0.0026810169219970703,
+    "seed": 42,
+    "policy_path": "E:\\Tasfin_Research\\abcd_work\\code\\artifacts\\policies\\kuairec_Random_raw_features_seed42.pt"
+  },
+  {
+    "agent": "LinUCB",
+    "dataset": "kuairec",
+    "state_source": "raw_features",
+    "state_dim": 1,
+    "n_actions": 3327,
+    "n_train_rounds": 1480517,
+    "cate_reward_weight": 0.0,
+    "training_seconds": 15.980941772460938,
+    "seed": 42,
+    "policy_path": "E:\\Tasfin_Research\\abcd_work\\code\\artifacts\\policies\\kuairec_LinUCB_raw_features_seed42.pt"
+  },
+  {
+    "agent": "NeuralUCB",
+    "dataset": "kuairec",
+    "state_source": "raw_features",
+    "state_dim": 1,
+    "n_actions": 3327,
+    "n_train_rounds": 1480517,
+    "cate_reward_weight": 0.0,
+    "training_seconds": 131.35155582427979,
+    "seed": 42,
+    "policy_path": "E:\\Tasfin_Research\\abcd_work\\code\\artifacts\\policies\\kuairec_NeuralUCB_raw_features_seed42.pt"
+  },
+  {
+    "agent": "IQL",
+    "dataset": "kuairec",
+    "state_source": "raw_features",
+    "state_dim": 1,
+    "n_actions": 3327,
+    "n_train_rounds": 1480517,
+    "cate_reward_weight": 0.0,
+    "training_seconds": 4344.752904176712,
+    "seed": 42,
+    "policy_path": "E:\\Tasfin_Research\\abcd_work\\code\\artifacts\\policies\\kuairec_IQL_raw_features_seed42.pt"
+  },
+  {
+    "agent": "DQN",
+    "dataset": "kuairec",
+    "state_source": "raw_features",
+    "state_dim": 1,
+    "n_actions": 3327,
+    "n_train_rounds": 1480517,
+    "cate_reward_weight": 0.0,
+    "training_seconds": 5437.693031311035,
+    "seed": 42,
+    "policy_path": "E:\\Tasfin_Research\\abcd_work\\code\\artifacts\\policies\\kuairec_DQN_raw_features_seed42.pt"
+  },
+  {
+    "agent": "CQL",
+    "dataset": "kuairec",
+    "state_source": "raw_features",
+    "state_dim": 1,
+    "n_actions": 3327,
+    "n_train_rounds": 1480517,
+    "cate_reward_weight": 0.0,
+    "training_seconds": 6097.577773571014,
+    "seed": 42,
+    "policy_path": "E:\\Tasfin_Research\\abcd_work\\code\\artifacts\\policies\\kuairec_CQL_raw_features_seed42.pt"
+  },
+  {
+    "agent": "BCQ",
+    "dataset": "kuairec",
+    "state_source": "raw_features",
+    "state_dim": 1,
+    "n_actions": 3327,
+    "n_train_rounds": 1480517,
+    "cate_reward_weight": 0.0,
+    "training_seconds": 8092.822803258896,
+    "seed": 42,
+    "policy_path": "E:\\Tasfin_Research\\abcd_work\\code\\artifacts\\policies\\kuairec_BCQ_raw_features_seed42.pt"
+  }
+]

@@ -1,0 +1,16 @@
+[
+  {
+    "variant": "main",
+    "seed": 42,
+    "status": "ok",
+    "seconds": 35120.382563591,
+    "error": null,
+    "phases": [
+      "phase1",
+      "phase2",
+      "phase3",
+      "phase4"
+    ],
+    "traceback": null
+  }
+]

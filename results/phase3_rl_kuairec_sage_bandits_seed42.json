@@ -1,0 +1,38 @@
+[
+  {
+    "agent": "Random",
+    "dataset": "kuairec_sage",
+    "state_source": "gnn_embeddings",
+    "state_dim": 64,
+    "n_actions": 3327,
+    "n_train_rounds": 1480517,
+    "cate_reward_weight": 0.0,
+    "training_seconds": 0.000720977783203125,
+    "seed": 42,
+    "policy_path": "E:\\Tasfin_Research\\abcd_work\\code\\artifacts\\policies\\kuairec_sage_Random_gnn_embeddings_seed42.pt"
+  },
+  {
+    "agent": "LinUCB",
+    "dataset": "kuairec_sage",
+    "state_source": "gnn_embeddings",
+    "state_dim": 64,
+    "n_actions": 3327,
+    "n_train_rounds": 1480517,
+    "cate_reward_weight": 0.0,
+    "training_seconds": 11.284539937973022,
+    "seed": 42,
+    "policy_path": "E:\\Tasfin_Research\\abcd_work\\code\\artifacts\\policies\\kuairec_sage_LinUCB_gnn_embeddings_seed42.pt"
+  },
+  {
+    "agent": "NeuralUCB",
+    "dataset": "kuairec_sage",
+    "state_source": "gnn_embeddings",
+    "state_dim": 64,
+    "n_actions": 3327,
+    "n_train_rounds": 1480517,
+    "cate_reward_weight": 0.0,
+    "training_seconds": 112.3022210597992,
+    "seed": 42,
+    "policy_path": "E:\\Tasfin_Research\\abcd_work\\code\\artifacts\\policies\\kuairec_sage_NeuralUCB_gnn_embeddings_seed42.pt"
+  }
+]

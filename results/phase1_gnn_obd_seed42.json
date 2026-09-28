@@ -1,0 +1,72 @@
+[
+  {
+    "architecture": "LightGCN",
+    "dataset": "obd",
+    "best_val_bpr_loss": 0.7007351517677307,
+    "final_train_bpr_loss": 0.675944596529007,
+    "best_epoch": 15,
+    "epochs_run": 25,
+    "early_stopped": true,
+    "training_seconds": 2.5574707984924316,
+    "n_parameters": 4160,
+    "embedding_path": "E:\\Tasfin_Research\\abcd_work\\code\\artifacts\\embeddings\\obd_LightGCN_seed42_94f4277152d891d92c71_embeddings.pt",
+    "seed": 42,
+    "peak_memory_mb": 49.81787109375
+  },
+  {
+    "architecture": "GraphSAGE",
+    "dataset": "obd",
+    "best_val_bpr_loss": 0.6559298634529114,
+    "final_train_bpr_loss": 0.6453771442174911,
+    "best_epoch": 31,
+    "epochs_run": 41,
+    "early_stopped": true,
+    "training_seconds": 3.787198066711426,
+    "n_parameters": 66176,
+    "embedding_path": "E:\\Tasfin_Research\\abcd_work\\code\\artifacts\\embeddings\\obd_GraphSAGE_seed42_0d40c114f4c758993cf1_embeddings.pt",
+    "seed": 42,
+    "peak_memory_mb": 69.08544921875
+  },
+  {
+    "architecture": "GAT",
+    "dataset": "obd",
+    "best_val_bpr_loss": 0.6530017852783203,
+    "final_train_bpr_loss": 0.6508860290050507,
+    "best_epoch": 17,
+    "epochs_run": 27,
+    "early_stopped": true,
+    "training_seconds": 6.349876642227173,
+    "n_parameters": 428544,
+    "embedding_path": "E:\\Tasfin_Research\\abcd_work\\code\\artifacts\\embeddings\\obd_GAT_seed42_8f393856d35b60c13bf3_embeddings.pt",
+    "seed": 42,
+    "peak_memory_mb": 415.13330078125
+  },
+  {
+    "architecture": "NGCF",
+    "dataset": "obd",
+    "best_val_bpr_loss": 0.6798915266990662,
+    "final_train_bpr_loss": 0.646670788526535,
+    "best_epoch": 16,
+    "epochs_run": 26,
+    "early_stopped": true,
+    "training_seconds": 4.773608922958374,
+    "n_parameters": 140224,
+    "embedding_path": "E:\\Tasfin_Research\\abcd_work\\code\\artifacts\\embeddings\\obd_NGCF_seed42_53163e7ba1b33b51106d_embeddings.pt",
+    "seed": 42,
+    "peak_memory_mb": 260.7099609375
+  },
+  {
+    "architecture": "GCN",
+    "dataset": "obd",
+    "best_val_bpr_loss": 0.6575899720191956,
+    "final_train_bpr_loss": 0.6470656096935272,
+    "best_epoch": 17,
+    "epochs_run": 27,
+    "early_stopped": true,
+    "training_seconds": 2.4771769046783447,
+    "n_parameters": 33088,
+    "embedding_path": "E:\\Tasfin_Research\\abcd_work\\code\\artifacts\\embeddings\\obd_GCN_seed42_314c5d1e8c6a0e00dbe4_embeddings.pt",
+    "seed": 42,
+    "peak_memory_mb": 69.40576171875
+  }
+]
