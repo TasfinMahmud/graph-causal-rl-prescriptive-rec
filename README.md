@@ -66,8 +66,8 @@ gcrl/          core package: data loaders, GNN encoders, causal estimators,
                offline RL agents, off-policy estimators, and the four phases
 configs/       experiment configurations; every reported run has one
 scripts/       entry points, table and figure generation, diagnostic tooling
-tests/         unit and integration tests for the estimators, the loaders
-               and the evaluation protocol
+tests/         454 unit and integration tests covering the estimators, the
+               loaders and the evaluation protocol
 results/       the JSON and CSV files underlying the reported tables
 docs/          reproduction instructions, figures, and a map from result
                file to claim
@@ -78,7 +78,7 @@ docs/          reproduction instructions, figures, and a map from result
 ```bash
 python -m venv .venv && . .venv/bin/activate      # Windows: .venv\Scripts\activate
 pip install -r requirements.txt
-pytest -q                                          # full suite, no data required
+pytest -q                                          # 454 tests, no data required
 ```
 
 Reproducing the experiments requires both datasets and a CUDA-capable GPU. See

@@ -23,7 +23,7 @@ python -c "import torch; x=torch.randn(8,8,device='cuda'); print((x@x).sum().ite
 Then confirm the test suite passes without any data present:
 
 ```bash
-pytest -q          # the full suite, no data required
+pytest -q          # 454 passed, no data required
 ```
 
 ## 2. Datasets
